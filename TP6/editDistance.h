@@ -1,7 +1,8 @@
-#ifndef _LEVENSHTEIN_H_
-#define _LEVENSHTEIN_H_
+#ifndef _EDITDISTANCE_H_
+#define _EDITDISTANCE_H_
 
 #include <string>;
+#include <vector>;
 #include <map>;
 using namespace std;
 
@@ -13,4 +14,5 @@ extern map<pair<int, int>, int> distLevs;
 
 int LevenshteinDistanceRecursiveMemory(string, string);
 
+int LevenshteinDistanceIterative(string, string);
 #endif

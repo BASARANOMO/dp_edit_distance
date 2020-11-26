@@ -1,5 +1,4 @@
-#include "levenshtein.h";
-map<pair<int, int>, int> distLevs;
+#include "editDistance.h";
 
 int LevenshteinDistanceRecursive(string A, string B) {
 	int m = A.length();
@@ -15,6 +14,7 @@ int LevenshteinDistanceRecursive(string A, string B) {
 		(LevenshteinDistanceRecursive(A.substr(0, m - 1), B.substr(0, n - 1)) + cost));
 };
 
+map<pair<int, int>, int> distLevs;
 int LevenshteinDistanceRecursiveMemory(string A, string B) {
 	int m = A.length();
 	int n = B.length();
@@ -33,4 +33,14 @@ int LevenshteinDistanceRecursiveMemory(string A, string B) {
 	if (!distLevs.count(p3)) distLevs.insert(make_pair(p3, LevenshteinDistanceRecursive(A.substr(0, m - 1), B.substr(0, n - 1)) + cost));
 
 	return Min(distLevs[p1], distLevs[p2], distLevs[p3]);
+};
+
+int LevenshteinDistanceIterative(string A, string B) {
+	int m = A.length();
+	int n = B.length();
+
+	vector<vector<int> > distLevs(m);
+	for (int i = 0; i < m; i++) distLevs[i].resize(n);
+
+	return 0;
 };
