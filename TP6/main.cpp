@@ -20,5 +20,11 @@ int main() {
 	cout << distLev << endl;
 	cout << "Execution time: " << (t2 - t1) / float(CLOCKS_PER_SEC) << endl;
 
+	cout << "Iterative solution: ";
+	t1 = clock();
+	distLev = LevenshteinDistanceIterative(A, B);
+	t2 = clock();
+	cout << distLev << endl;
+	cout << "Execution time: " << (t2 - t1) / float(CLOCKS_PER_SEC) << endl;
 	return 0;
 };

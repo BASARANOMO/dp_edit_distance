@@ -1,9 +1,9 @@
 #ifndef _EDITDISTANCE_H_
 #define _EDITDISTANCE_H_
 
-#include <string>;
-#include <vector>;
-#include <map>;
+#include <string>
+#include <vector>
+#include <map>
 using namespace std;
 
 #define Min(a, b, c) (a < b ? (a < c ? a : c) : (b < c ? b : c))
