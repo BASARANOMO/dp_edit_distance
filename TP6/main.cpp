@@ -8,5 +8,8 @@ int main() {
 	int distLev = LevenshteinDistanceRecursive(A, B);
 	cout << distLev << endl;
 
+	distLev = LevenshteinDistanceRecursiveMemory(A, B);
+	cout << distLev << endl;
+
 	return 0;
-}
+};
