@@ -3,7 +3,12 @@
 
 #include <string>
 #include <vector>
+#include <array>
 #include <map>
+#include <stack>
+#include <algorithm>
+#include <iostream>
+//#include <stdio.h>
 using namespace std;
 
 #define Min(a, b, c) (a < b ? (a < c ? a : c) : (b < c ? b : c))
@@ -14,5 +19,15 @@ extern map<pair<int, int>, int> distLevs;
 
 int LevenshteinDistanceRecursiveMemory(string, string);
 
-int LevenshteinDistanceIterative(string, string);
+vector<vector<int> > LevenshteinDistanceIterative(string, string);
+
+void printPath(vector<vector<int> >, string, string, bool);
+void printPathBackToFront(vector<vector<int> >, string, string);
+void printPathFrontToBack(vector<vector<int> >, string, string);
+
+template<class ForwardIterator>
+inline int argmin(ForwardIterator first, ForwardIterator last)
+{
+    return distance(first, min_element(first, last));
+}
 #endif
