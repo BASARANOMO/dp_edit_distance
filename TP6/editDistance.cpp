@@ -57,16 +57,12 @@ vector<vector<int> > LevenshteinDistanceIterative(string A, string B) {
 	return distLevs;
 }
 
-void printPath(vector<vector<int> > distLevs, string A, string B, bool fromFrontToBack = true) {
-	if (fromFrontToBack) {
-		printPathFrontToBack(distLevs, A, B);
-	}
-	else {
-		printPathBackToFront(distLevs, A, B);
-	}
+void printPathLevDist(vector<vector<int> > distLevs, string A, string B, bool fromFrontToBack = true) {
+	if (fromFrontToBack) printPathLevDistFrontToBack(distLevs, A, B);
+	else printPathLevDistBackToFront(distLevs, A, B);
 }
 
-void printPathBackToFront(vector<vector<int> > distLevs, string A, string B) {
+void printPathLevDistBackToFront(vector<vector<int> > distLevs, string A, string B) {
 	int i = distLevs.size() - 1;
 	int j = distLevs[0].size() - 1;
 	printf("Operations required to convert '%s' to '%s' (from back to front): \n", A.c_str(), B.c_str());
@@ -93,7 +89,7 @@ void printPathBackToFront(vector<vector<int> > distLevs, string A, string B) {
 	cout << "End." << endl;
 }
 
-void printPathFrontToBack(vector<vector<int> > distLevs, string A, string B) {
+void printPathLevDistFrontToBack(vector<vector<int> > distLevs, string A, string B) {
 	int i = distLevs.size() - 1;
 	int j = distLevs[0].size() - 1;
 	stack<tuple<int, int, int> > stk;

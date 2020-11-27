@@ -21,9 +21,9 @@ int LevenshteinDistanceRecursiveMemory(string, string);
 
 vector<vector<int> > LevenshteinDistanceIterative(string, string);
 
-void printPath(vector<vector<int> >, string, string, bool);
-void printPathBackToFront(vector<vector<int> >, string, string);
-void printPathFrontToBack(vector<vector<int> >, string, string);
+void printPathLevDist(vector<vector<int> >, string, string, bool);
+void printPathLevDistBackToFront(vector<vector<int> >, string, string);
+void printPathLevDistFrontToBack(vector<vector<int> >, string, string);
 
 template<class ForwardIterator>
 inline int argmin(ForwardIterator first, ForwardIterator last)

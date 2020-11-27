@@ -2,8 +2,8 @@
 #include <time.h>
 
 int main() {
-	string A = "¨¦coles";
-	string B = "eclose";
+	string A = "horse";
+	string B = "ros";
 	clock_t t1;
 	clock_t t2;
 	int distLev;
@@ -34,9 +34,9 @@ int main() {
 	cout << "Execution time: " << (t2 - t1) / float(CLOCKS_PER_SEC) << endl;
 
 	printf("\n");
-	printPath(distLevs, A, B, false);
+	printPathLevDist(distLevs, A, B, false);
 
 	printf("\n");
-	printPath(distLevs, A, B, true);
+	printPathLevDist(distLevs, A, B, true);
 	return 0;
 }
