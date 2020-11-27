@@ -2,41 +2,51 @@
 #include <time.h>
 
 int main() {
-	string A = "horse";
-	string B = "ros";
+	string A = "eclose";
+	string B = "ecoles";
 	clock_t t1;
 	clock_t t2;
 	int distLev;
+	vector<vector<int> > distLevs;
 
-	/*
-	cout << "Recursive solution: ";
+	printf("String 1: '%s'\n", A.c_str());
+	printf("String 2: '%s'\n", B.c_str());
+
+	printf("\n***************************** Levenshtein distance *****************************\n");
+	cout << "Recursive solution result: ";
 	t1 = clock();
 	distLev = LevenshteinDistanceRecursive(A, B);
 	t2 = clock();
 	cout << distLev << endl;
-	cout << "Execution time: " << (t2 - t1) / float(CLOCKS_PER_SEC) << endl;
-	*/
+	printf("Execution time: %f sec.\n", (t2 - t1) / float(CLOCKS_PER_SEC));
 
-	printf("\n");
-	cout << "Recursive solution with memorization: ";
+	cout << "\nRecursive solution with memorization result: ";
 	t1 = clock();
 	distLev = LevenshteinDistanceRecursiveMemory(A, B);
 	t2 = clock();
 	cout << distLev << endl;
-	cout << "Execution time: " << (t2 - t1) / float(CLOCKS_PER_SEC) << endl;
+	printf("Execution time: %f sec.\n", (t2 - t1) / float(CLOCKS_PER_SEC));
 
-	printf("\n");
-	cout << "Iterative solution: ";
+	cout << "\nIterative solution result: ";
 	t1 = clock();
-	vector<vector<int> > distLevs = LevenshteinDistanceIterative(A, B);
+	distLevs = editDistanceIterative(A, B); // Levenshtein Distance
 	t2 = clock();
 	cout << distLevs[A.length()][B.length()] << endl;
-	cout << "Execution time: " << (t2 - t1) / float(CLOCKS_PER_SEC) << endl;
+	printf("Execution time: %f sec.\n", (t2 - t1) / float(CLOCKS_PER_SEC));
 
 	printf("\n");
 	printPathLevDist(distLevs, A, B, false);
 
 	printf("\n");
 	printPathLevDist(distLevs, A, B, true);
+
+	printf("\n************************* Damerau-Levenshtein distance *************************\n");
+	cout << "Iterative solution result: ";
+	t1 = clock();
+	distLevs = editDistanceIterative(A, B, true);  // Damerau-Levenshtein Distance
+	t2 = clock();
+	cout << distLevs[A.length()][B.length()] << endl;
+	printf("Execution time: %f sec.\n", (t2 - t1) / float(CLOCKS_PER_SEC));
+
 	return 0;
 }

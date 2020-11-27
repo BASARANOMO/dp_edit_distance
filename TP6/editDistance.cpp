@@ -35,6 +35,11 @@ int LevenshteinDistanceRecursiveMemory(string A, string B) {
 	return Min(distLevs[p0] + 1, distLevs[p1] + 1, distLevs[p2] + cost);
 }
 
+vector<vector<int> > editDistanceIterative(string A, string B, bool DamerauLevenshteinDist) {
+	if (DamerauLevenshteinDist) return DamerauLevenshteinDistanceIterative(A, B);
+	else return LevenshteinDistanceIterative(A, B);
+}
+
 vector<vector<int> > LevenshteinDistanceIterative(string A, string B) {
 	int m = A.length();
 	int n = B.length();
@@ -57,7 +62,33 @@ vector<vector<int> > LevenshteinDistanceIterative(string A, string B) {
 	return distLevs;
 }
 
-void printPathLevDist(vector<vector<int> > distLevs, string A, string B, bool fromFrontToBack = true) {
+vector<vector<int> > DamerauLevenshteinDistanceIterative(string A, string B) {
+	int m = A.length();
+	int n = B.length();
+
+	vector<vector<int> > distLevs(m + 1);
+	for (int i = 0; i < m + 1; i++) {
+		distLevs[i].resize(n + 1);
+		distLevs[i][0] = i;
+	}
+
+	for (int i = 0; i < n + 1; i++) distLevs[0][i] = i;
+
+	for (int i = 1; i < m + 1; i++) {
+		for (int j = 1; j < n + 1; j++) {
+			int cost = A[i - 1] == B[j - 1] ? 0 : 1;
+			distLevs[i][j] = Min(distLevs[i - 1][j] + 1, distLevs[i][j - 1] + 1, distLevs[i - 1][j - 1] + cost);
+
+			if ((i > 1) && (j > 1) && (A[i - 1] == B[j - 2]) && (A[i - 2] == B[i - 1])) {
+				distLevs[i][j] = min(distLevs[i][j], distLevs[i - 2][j - 2] + 1);
+			}
+		}
+	}
+
+	return distLevs;
+}
+
+void printPathLevDist(vector<vector<int> > distLevs, string A, string B, bool fromFrontToBack) {
 	if (fromFrontToBack) printPathLevDistFrontToBack(distLevs, A, B);
 	else printPathLevDistBackToFront(distLevs, A, B);
 }

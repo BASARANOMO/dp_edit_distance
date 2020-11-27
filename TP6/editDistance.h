@@ -19,9 +19,11 @@ extern map<pair<int, int>, int> distLevs;
 
 int LevenshteinDistanceRecursiveMemory(string, string);
 
+vector<vector<int> > editDistanceIterative(string, string, bool = false);
 vector<vector<int> > LevenshteinDistanceIterative(string, string);
+vector<vector<int> > DamerauLevenshteinDistanceIterative(string, string);
 
-void printPathLevDist(vector<vector<int> >, string, string, bool);
+void printPathLevDist(vector<vector<int> >, string, string, bool = true);
 void printPathLevDistBackToFront(vector<vector<int> >, string, string);
 void printPathLevDistFrontToBack(vector<vector<int> >, string, string);
 
