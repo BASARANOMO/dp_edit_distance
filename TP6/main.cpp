@@ -2,8 +2,8 @@
 #include <time.h>
 
 int main() {
-	string A = "abc";
-	string B = "ca";
+	string A = "ecoles";
+	string B = "eclose";
 	clock_t t1;
 	clock_t t2;
 	int distLev;

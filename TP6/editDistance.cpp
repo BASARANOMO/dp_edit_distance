@@ -62,7 +62,7 @@ vector<vector<int> > LevenshteinDistanceIterative(string A, string B) {
 	return distLevs;
 }
 
-// there is a bug in this func
+// This is not the true DL distance
 vector<vector<int> > DamerauLevenshteinDistanceIterative(string A, string B) {
 	int m = A.length();
 	int n = B.length();
