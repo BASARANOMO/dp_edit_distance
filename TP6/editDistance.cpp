@@ -62,6 +62,7 @@ vector<vector<int> > LevenshteinDistanceIterative(string A, string B) {
 	return distLevs;
 }
 
+// there is a bug in this func
 vector<vector<int> > DamerauLevenshteinDistanceIterative(string A, string B) {
 	int m = A.length();
 	int n = B.length();
@@ -79,7 +80,7 @@ vector<vector<int> > DamerauLevenshteinDistanceIterative(string A, string B) {
 			int cost = A[i - 1] == B[j - 1] ? 0 : 1;
 			distLevs[i][j] = Min(distLevs[i - 1][j] + 1, distLevs[i][j - 1] + 1, distLevs[i - 1][j - 1] + cost);
 
-			if ((i > 1) && (j > 1) && (A[i - 1] == B[j - 2]) && (A[i - 2] == B[i - 1])) {
+			if ((i > 2) && (j > 2) && (A[i - 1] == B[j - 2]) && (A[i - 2] == B[i - 1])) {
 				distLevs[i][j] = min(distLevs[i][j], distLevs[i - 2][j - 2] + 1);
 			}
 		}
@@ -96,26 +97,40 @@ void printPathLevDist(vector<vector<int> > distLevs, string A, string B, bool fr
 void printPathLevDistBackToFront(vector<vector<int> > distLevs, string A, string B) {
 	int i = distLevs.size() - 1;
 	int j = distLevs[0].size() - 1;
+	string temp = A;
 	printf("Operations required to convert '%s' to '%s' (from back to front): \n", A.c_str(), B.c_str());
-	while ((i > 0) && (j > 0)) {
-		int cost = A[i - 1] == B[j - 1] ? 0 : 1;
-		array<int, 3> val{ distLevs[i - 1][j] + 1, distLevs[i][j - 1] + 1, distLevs[i - 1][j - 1] + cost };
-		int idx = argmin(val.begin(), val.end());
-		if (idx == 0) {
-			printf("Delete the %dth char '%c' of the first string\n", i, A[i - 1]);
-			--i;
-		}
-		if (idx == 1) {
-			printf("Add char '%c' at the position %d of the first string\n", B[j - 1], i + 1);
+	while ((i > 0) || (j > 0)) {
+		if (i == 0) {
+			temp.insert(0, 1, B[j - 1]);
 			--j;
 		}
-		if (idx == 2) {
-			if (cost == 1) {
-				printf("Replace the %dth char '%c' of the first string by the char '%c'\n", i, A[i - 1], B[j - 1]);
-			}  // else: do nothing
+		else if (j == 0) {
+			temp.erase(i - 1, 1);
 			--i;
-			--j;
 		}
+		else {
+			int cost = A[i - 1] == B[j - 1] ? 0 : 1;
+			array<int, 3> val{ distLevs[i - 1][j] + 1, distLevs[i][j - 1] + 1, distLevs[i - 1][j - 1] + cost };
+			int idx = argmin(val.begin(), val.end());
+			if (idx == 0) {
+				temp.erase(i - 1, 1);
+				//printf("Delete the %dth char '%c' of the first string\n", i, A[i - 1]);
+				--i;
+			}
+			if (idx == 1) {
+				temp.insert(i, 1, B[j - 1]);
+				//printf("Add char '%c' at the position %d of the first string\n", B[j - 1], i + 1);
+				--j;
+			}
+			if (idx == 2) {
+				--i;
+				--j;
+				if (cost == 0) continue;
+				else temp.replace(i, 1, 1, B[j]);
+			}
+		}
+		printf("'%s' -> '%s'\n", A.c_str(), temp.c_str());
+		A = temp;
 	}
 	cout << "End." << endl;
 }
@@ -125,17 +140,27 @@ void printPathLevDistFrontToBack(vector<vector<int> > distLevs, string A, string
 	int j = distLevs[0].size() - 1;
 	stack<tuple<int, int, int> > stk;
 
-	while ((i > 0) && (j > 0)) {
-		int cost = A[i - 1] == B[j - 1] ? 0 : 1;
-		array<int, 3> val{ distLevs[i - 1][j] + 1, distLevs[i][j - 1] + 1, distLevs[i - 1][j - 1] + cost };
-		int idx = argmin(val.begin(), val.end());
-		// note down idx, i and j as a tuple in a stack
-		if ((idx != 2) or (cost != 0)) stk.push(make_tuple(idx, i, j));
-		if (idx == 0) --i;
-		if (idx == 1) --j;
-		if (idx == 2) {
-			--i;
+	while ((i > 0) || (j > 0)) {
+		if (i == 0) {
+			stk.push(make_tuple(1, i, j));
 			--j;
+		}
+		else if (j == 0) {
+			stk.push(make_tuple(0, i, j));
+			--i;
+		}
+		else {
+			int cost = A[i - 1] == B[j - 1] ? 0 : 1;
+			array<int, 3> val{ distLevs[i - 1][j] + 1, distLevs[i][j - 1] + 1, distLevs[i - 1][j - 1] + cost };
+			int idx = argmin(val.begin(), val.end());
+			// note down idx, i and j as a tuple in a stack
+			if ((idx != 2) or (cost != 0)) stk.push(make_tuple(idx, i, j));
+			if (idx == 0) --i;
+			if (idx == 1) --j;
+			if (idx == 2) {
+				--i;
+				--j;
+			}
 		}
 	}
 
