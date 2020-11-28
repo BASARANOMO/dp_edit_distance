@@ -161,12 +161,10 @@ void printPathLevDistBackToFront(vector<vector<int> > distLevs, string A, string
 			int idx = argmin(val.begin(), val.end());
 			if (idx == 0) {
 				temp.erase(i - 1, 1);
-				//printf("Delete the %dth char '%c' of the first string\n", i, A[i - 1]);
 				--i;
 			}
 			if (idx == 1) {
 				temp.insert(i, 1, B[j - 1]);
-				//printf("Add char '%c' at the position %d of the first string\n", B[j - 1], i + 1);
 				--j;
 			}
 			if (idx == 2) {
