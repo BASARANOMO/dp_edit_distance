@@ -82,7 +82,7 @@ vector<vector<int> > optimalStringAlignmentDistanceIterative(string A, string B)
 			cost = A[i - 1] == B[j - 1] ? 0 : 1;
 			distLevs[i][j] = Min(distLevs[i - 1][j] + 1, distLevs[i][j - 1] + 1, distLevs[i - 1][j - 1] + cost);
 
-			if ((i > 2) && (j > 2) && (A[i - 1] == B[j - 2]) && (A[i - 2] == B[i - 1])) {
+			if ((i > 1) && (j > 1) && (A[i - 1] == B[j - 2]) && (A[i - 2] == B[j - 1])) {
 				distLevs[i][j] = min(distLevs[i][j], distLevs[i - 2][j - 2] + 1);
 			}
 		}

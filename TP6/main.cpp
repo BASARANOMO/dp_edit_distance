@@ -2,8 +2,8 @@
 #include <time.h>
 
 int main() {
-	string A = "abc";
-	string B = "ca";
+	string A = "ecoles";
+	string B = "eclose";
 	clock_t t1;
 	clock_t t2;
 	int distLev;
@@ -12,7 +12,7 @@ int main() {
 	printf("String 1: '%s'\n", A.c_str());
 	printf("String 2: '%s'\n", B.c_str());
 
-	printf("\n***************************** Levenshtein distance *****************************\n");
+	printf("\n***************************** Levenshtein Distance *****************************\n");
 	/*
 	cout << "Recursive solution result: ";
 	t1 = clock();
@@ -42,7 +42,7 @@ int main() {
 	printf("\n");
 	printPathLevDist(distLevs, A, B, true);
 
-	printf("\n************************* Damerau-Levenshtein distance *************************\n");
+	printf("\n************************* Damerau-Levenshtein Distance *************************\n");
 	cout << "Iterative solution result: ";
 	t1 = clock();
 	distLevs = editDistanceIterative(A, B, true);  // Damerau-Levenshtein Distance
@@ -50,6 +50,13 @@ int main() {
 	cout << distLevs[A.length() + 1][B.length() + 1] << endl;
 	printf("Execution time: %f sec.\n", (t2 - t1) / float(CLOCKS_PER_SEC));
 
+	printf("\n********************** Optimal String Alignment Distance ***********************\n");
+	cout << "Iterative solution result: ";
+	t1 = clock();
+	distLevs = optimalStringAlignmentDistanceIterative(A, B);
+	t2 = clock();
+	cout << distLevs[A.length()][B.length()] << endl;
+	printf("Execution time: %f sec.\n", (t2 - t1) / float(CLOCKS_PER_SEC));
 
 	return 0;
 }
