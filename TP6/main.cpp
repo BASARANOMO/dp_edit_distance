@@ -2,8 +2,8 @@
 #include <time.h>
 
 int main() {
-	string A = "ecoles";
-	string B = "eclose";
+	string A = "abc";
+	string B = "ca";
 	clock_t t1;
 	clock_t t2;
 	int distLev;
@@ -47,8 +47,9 @@ int main() {
 	t1 = clock();
 	distLevs = editDistanceIterative(A, B, true);  // Damerau-Levenshtein Distance
 	t2 = clock();
-	cout << distLevs[A.length()][B.length()] << endl;
+	cout << distLevs[A.length() + 1][B.length() + 1] << endl;
 	printf("Execution time: %f sec.\n", (t2 - t1) / float(CLOCKS_PER_SEC));
+
 
 	return 0;
 }

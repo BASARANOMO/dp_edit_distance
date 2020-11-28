@@ -52,9 +52,10 @@ vector<vector<int> > LevenshteinDistanceIterative(string A, string B) {
 
 	for (int i = 0; i < n + 1; i++) distLevs[0][i] = i;
 	
+	int cost;
 	for (int i = 1; i < m + 1; i++) {
 		for (int j = 1; j < n + 1; j++) {
-			int cost = A[i - 1] == B[j - 1] ? 0 : 1;
+			cost = A[i - 1] == B[j - 1] ? 0 : 1;
 			distLevs[i][j] = Min(distLevs[i - 1][j] + 1, distLevs[i][j - 1] + 1, distLevs[i - 1][j - 1] + cost);
 		}
 	}
@@ -63,7 +64,7 @@ vector<vector<int> > LevenshteinDistanceIterative(string A, string B) {
 }
 
 // This is not the true DL distance
-vector<vector<int> > DamerauLevenshteinDistanceIterative(string A, string B) {
+vector<vector<int> > optimalStringAlignmentDistanceIterative(string A, string B) {
 	int m = A.length();
 	int n = B.length();
 
@@ -75,15 +76,61 @@ vector<vector<int> > DamerauLevenshteinDistanceIterative(string A, string B) {
 
 	for (int i = 0; i < n + 1; i++) distLevs[0][i] = i;
 
+	int cost;
 	for (int i = 1; i < m + 1; i++) {
 		for (int j = 1; j < n + 1; j++) {
-			int cost = A[i - 1] == B[j - 1] ? 0 : 1;
+			cost = A[i - 1] == B[j - 1] ? 0 : 1;
 			distLevs[i][j] = Min(distLevs[i - 1][j] + 1, distLevs[i][j - 1] + 1, distLevs[i - 1][j - 1] + cost);
 
 			if ((i > 2) && (j > 2) && (A[i - 1] == B[j - 2]) && (A[i - 2] == B[i - 1])) {
 				distLevs[i][j] = min(distLevs[i][j], distLevs[i - 2][j - 2] + 1);
 			}
 		}
+	}
+
+	return distLevs;
+}
+
+/*
+inspired by the solution of:
+Boytsov L. 
+Indexing methods for approximate dictionary searching: Comparative analysis[J]. 
+Journal of Experimental Algorithmics (JEA), 2011, 16: 1.1-1.91.
+doi:10.1145/1963190.1963191
+*/
+vector<vector<int> > DamerauLevenshteinDistanceIterative(string A, string B) {
+	int m = A.length();
+	int n = B.length();
+	int maxDist = m + n;
+	int vecASCII[256];
+	memset(vecASCII, 0, sizeof(vecASCII));
+
+	vector<vector<int> > distLevs(m + 2);
+	for (int i = 0; i < m + 2; i++) distLevs[i].resize(n + 2);
+
+	distLevs[0][0] = maxDist;
+	for (int i = 0; i < m + 1; i++) {
+		distLevs[i + 1][0] = maxDist;
+		distLevs[i + 1][1] = i;
+	}
+	for (int i = 0; i < n + 1; i++) {
+		distLevs[0][i + 1] = maxDist;
+		distLevs[1][i + 1] = i;
+	}
+
+	int temp, k, l, cost;
+	for (int i = 1; i < m + 1; i++) {
+		temp = 0;
+		for (int j = 1; j < n + 1; j++) {
+			k = vecASCII[B[j - 1]];
+			l = temp;
+			cost = A[i - 1] == B[j - 1] ? 0 : 1;
+			if (cost == 0) temp = j;
+
+			distLevs[i + 1][j + 1] = Min(distLevs[i][j + 1] + 1, distLevs[i + 1][j] + 1, distLevs[i][j] + cost);
+			distLevs[i + 1][j + 1] = min(distLevs[i + 1][j + 1], distLevs[k][l] + (i - k - 1) + 1 + (j - l - 1));
+		}
+		vecASCII[A[i - 1]] = i;
 	}
 
 	return distLevs;

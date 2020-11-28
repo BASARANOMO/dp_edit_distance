@@ -16,11 +16,11 @@ using namespace std;
 int LevenshteinDistanceRecursive(string, string);  // Time comlexity: Omega(2^(max(n, m))), expon.
 
 extern map<pair<int, int>, int> distLevs;
-
 int LevenshteinDistanceRecursiveMemory(string, string);
 
-vector<vector<int> > editDistanceIterative(string, string, bool = false);
+vector<vector<int> > editDistanceIterative(string, string, bool = false);  // false for Levenshtein dist. and true for D-L dist.
 vector<vector<int> > LevenshteinDistanceIterative(string, string);
+vector<vector<int> > optimalStringAlignmentDistanceIterative(string, string);  // not compute the true Damerau-Levenshtein Distance
 vector<vector<int> > DamerauLevenshteinDistanceIterative(string, string);
 
 void printPathLevDist(vector<vector<int> >, string, string, bool = true);
