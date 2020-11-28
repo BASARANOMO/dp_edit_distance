@@ -68,27 +68,27 @@ vector<vector<int> > optimalStringAlignmentDistanceIterative(string A, string B)
 	int m = A.length();
 	int n = B.length();
 
-	vector<vector<int> > distLevs(m + 1);
+	vector<vector<int> > distDL(m + 1);
 	for (int i = 0; i < m + 1; i++) {
-		distLevs[i].resize(n + 1);
-		distLevs[i][0] = i;
+		distDL[i].resize(n + 1);
+		distDL[i][0] = i;
 	}
 
-	for (int i = 0; i < n + 1; i++) distLevs[0][i] = i;
+	for (int i = 0; i < n + 1; i++) distDL[0][i] = i;
 
 	int cost;
 	for (int i = 1; i < m + 1; i++) {
 		for (int j = 1; j < n + 1; j++) {
 			cost = A[i - 1] == B[j - 1] ? 0 : 1;
-			distLevs[i][j] = Min(distLevs[i - 1][j] + 1, distLevs[i][j - 1] + 1, distLevs[i - 1][j - 1] + cost);
+			distDL[i][j] = Min(distDL[i - 1][j] + 1, distDL[i][j - 1] + 1, distDL[i - 1][j - 1] + cost);
 
 			if ((i > 1) && (j > 1) && (A[i - 1] == B[j - 2]) && (A[i - 2] == B[j - 1])) {
-				distLevs[i][j] = min(distLevs[i][j], distLevs[i - 2][j - 2] + 1);
+				distDL[i][j] = min(distDL[i][j], distDL[i - 2][j - 2] + 1);
 			}
 		}
 	}
 
-	return distLevs;
+	return distDL;
 }
 
 /*
@@ -105,17 +105,17 @@ vector<vector<int> > DamerauLevenshteinDistanceIterative(string A, string B) {
 	int vecASCII[256];
 	memset(vecASCII, 0, sizeof(vecASCII));
 
-	vector<vector<int> > distLevs(m + 2);
-	for (int i = 0; i < m + 2; i++) distLevs[i].resize(n + 2);
+	vector<vector<int> > distDL(m + 2);
+	for (int i = 0; i < m + 2; i++) distDL[i].resize(n + 2);
 
-	distLevs[0][0] = maxDist;
+	distDL[0][0] = maxDist;
 	for (int i = 0; i < m + 1; i++) {
-		distLevs[i + 1][0] = maxDist;
-		distLevs[i + 1][1] = i;
+		distDL[i + 1][0] = maxDist;
+		distDL[i + 1][1] = i;
 	}
 	for (int i = 0; i < n + 1; i++) {
-		distLevs[0][i + 1] = maxDist;
-		distLevs[1][i + 1] = i;
+		distDL[0][i + 1] = maxDist;
+		distDL[1][i + 1] = i;
 	}
 
 	int temp, k, l, cost;
@@ -127,13 +127,13 @@ vector<vector<int> > DamerauLevenshteinDistanceIterative(string A, string B) {
 			cost = A[i - 1] == B[j - 1] ? 0 : 1;
 			if (cost == 0) temp = j;
 
-			distLevs[i + 1][j + 1] = Min(distLevs[i][j + 1] + 1, distLevs[i + 1][j] + 1, distLevs[i][j] + cost);
-			distLevs[i + 1][j + 1] = min(distLevs[i + 1][j + 1], distLevs[k][l] + (i - k - 1) + 1 + (j - l - 1));
+			distDL[i + 1][j + 1] = Min(distDL[i][j + 1] + 1, distDL[i + 1][j] + 1, distDL[i][j] + cost);
+			distDL[i + 1][j + 1] = min(distDL[i + 1][j + 1], distDL[k][l] + (i - k - 1) + 1 + (j - l - 1));
 		}
 		vecASCII[A[i - 1]] = i;
 	}
 
-	return distLevs;
+	return distDL;
 }
 
 void printPathLevDist(vector<vector<int> > distLevs, string A, string B, bool fromFrontToBack) {

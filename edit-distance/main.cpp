@@ -13,14 +13,12 @@ int main() {
 	printf("String 2: '%s'\n", B.c_str());
 
 	printf("\n***************************** Levenshtein Distance *****************************\n");
-	/*
 	cout << "Recursive solution result: ";
 	t1 = clock();
 	distLev = LevenshteinDistanceRecursive(A, B);
 	t2 = clock();
 	cout << distLev << endl;
 	printf("Execution time: %f sec.\n", (t2 - t1) / float(CLOCKS_PER_SEC));
-	*/
 
 	cout << "\nRecursive solution with memorization result: ";
 	t1 = clock();
